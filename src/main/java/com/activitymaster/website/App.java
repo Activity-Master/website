@@ -1,5 +1,7 @@
 package com.activitymaster.website;
 
+import com.guicedee.client.IGuiceContext;
+import com.guicedee.client.utils.LogUtils;
 import com.jwebmp.core.base.angular.client.annotations.references.NgImportReference;
 import com.jwebmp.core.base.angular.client.annotations.structures.NgField;
 import com.jwebmp.core.base.angular.client.annotations.angular.NgDataType;
@@ -15,6 +17,13 @@ public class App implements INgDataType<App> {
     @Override
     public String renderBeforeClass() {
         return "@Injectable({ providedIn: 'root' })\n";
+    }
+
+    static void main() {
+        System.setProperty("HTTP_ENABLED","true");
+        LogUtils.addConsoleLogger();
+        IGuiceContext.registerModule("com.activitymaster.website");
+        IGuiceContext.instance().inject();
     }
 }
 

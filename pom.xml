@@ -18,7 +18,7 @@
         <ignore.moditect>true</ignore.moditect>
         <flatten.pom>false</flatten.pom>
         <jwebmp.version>2.0.2</jwebmp.version>
-        <guicedee.version>2.0.2</guicedee.version>
+        <guicedee.version>2.1.0-SNAPSHOT</guicedee.version>
 
         <maven.compiler.release>25</maven.compiler.release>
         <lombok.version>1.18.46</lombok.version>
@@ -49,6 +49,12 @@
         <dependency>
             <groupId>com.jwebmp.plugins</groupId>
             <artifactId>angular</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.vertx</groupId>
+                    <artifactId>vertx-bridge-common</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -161,7 +167,7 @@
                     <dependency>
                         <groupId>org.ow2.asm</groupId>
                         <artifactId>asm</artifactId>
-                        <version>9.9.1</version>
+                        <version>9.10.1</version>
                     </dependency>
                     <dependency>
                         <groupId>org.projectlombok</groupId>

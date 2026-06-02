@@ -2,7 +2,7 @@ import com.activitymaster.website.WebsitePageConfigurator;
 import com.jwebmp.core.base.angular.client.services.TypescriptIndexPageConfigurator;
 import com.jwebmp.core.services.IPageConfigurator;
 
-open module com.activitymaster.website {
+module com.activitymaster.website {
     requires com.guicedee.client;
     requires com.guicedee.vertx;
     requires com.jwebmp.client;

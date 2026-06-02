@@ -1,5 +1,6 @@
 package com.activitymaster.website;
 
+import com.activitymaster.website.pages.*;
 import com.jwebmp.core.base.angular.client.annotations.angular.NgComponent;
 import com.jwebmp.core.base.angular.client.annotations.boot.NgBootImportProvider;
 import com.jwebmp.core.base.angular.client.annotations.boot.NgBootImportReference;
@@ -55,6 +56,12 @@ import java.util.List;
 @NgImportReference(value = "filter", reference = "rxjs/operators")
 @NgComponentReference(WaToastDataService.class)
 @NgComponentReference(value = App.class)
+@NgComponentReference(InvolvedPartyPage.class)
+@NgComponentReference(ArrangementPage.class)
+@NgComponentReference(EventPage.class)
+@NgComponentReference(ProductPage.class)
+@NgComponentReference(ResourceItemPage.class)
+@NgComponentReference(ClassificationsPage.class)
 public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<WebsiteBoot> {
     public WebsiteBoot() {
         setTag("ng-container");
@@ -278,6 +285,15 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
 
         menuTree.add(createRouterTreeItem("/home", "Home", "house"));
 
+        WaTreeItem<?> conceptsItem = createRouterTreeItem(null, "Concepts", "books");
+        conceptsItem.add(createRouterTreeItem("/involved-party", "Involved Party", "user-group"));
+        conceptsItem.add(createRouterTreeItem("/arrangement", "Arrangement", "file-contract"));
+        conceptsItem.add(createRouterTreeItem("/event", "Event", "calendar-star"));
+        conceptsItem.add(createRouterTreeItem("/product", "Product", "box-open"));
+        conceptsItem.add(createRouterTreeItem("/resource-item", "Resource Item", "toolbox"));
+        conceptsItem.add(createRouterTreeItem("/classifications", "Classifications", "tags"));
+        menuTree.add(conceptsItem);
+
         menu.add(menuTree);
 
         // ── Built-on attribution links below menu tree ──
@@ -377,6 +393,16 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         navTree.setIndentGuideColor("var(--wa-color-neutral-300)");
 
         navTree.add(createRouterTreeItem("/home", "Home", "house"));
+
+        WaTreeItem<?> navConceptsItem = createRouterTreeItem(null, "Concepts", "books");
+        navConceptsItem.add(createRouterTreeItem("/involved-party", "Involved Party", "user-group"));
+        navConceptsItem.add(createRouterTreeItem("/arrangement", "Arrangement", "file-contract"));
+        navConceptsItem.add(createRouterTreeItem("/event", "Event", "calendar-star"));
+        navConceptsItem.add(createRouterTreeItem("/product", "Product", "box-open"));
+        navConceptsItem.add(createRouterTreeItem("/resource-item", "Resource Item", "toolbox"));
+        navConceptsItem.add(createRouterTreeItem("/classifications", "Classifications", "tags"));
+        navTree.add(navConceptsItem);
+
         burgerMenuNavigation.add(navTree);
 
         // ── Built-on attribution links below drawer tree ──
@@ -445,23 +471,36 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
 
     private static WaTreeItem<?> createRouterTreeItem(String path, String text, String icon)
     {
-        if (!path.startsWith("/"))
-        {
-            path = "/" + path;
-        }
-
         WaTreeItem<?> item = new WaTreeItem<>();
-        Link<?> link = new Link<>("#");
-        item.add(link);
-        link.addAttribute("routerLink", path);
-        link.setRenderTextBeforeChildren(false);
-        if (icon != null)
+        if (path != null)
         {
-            WaIcon<?> waIcon = new WaIcon<>(icon).addClass("wa-gap-1").addStyle("color", "var(--wa-color-brand-on-normal)");
-            waIcon.setFamily("sharp-duotone");
-            link.add(waIcon);
+            if (!path.startsWith("/"))
+            {
+                path = "/" + path;
+            }
+
+            Link<?> link = new Link<>("#");
+            item.add(link);
+            link.addAttribute("routerLink", path);
+            link.setRenderTextBeforeChildren(false);
+            if (icon != null)
+            {
+                WaIcon<?> waIcon = new WaIcon<>(icon).addClass("wa-gap-1").addStyle("color", "var(--wa-color-brand-on-normal)");
+                waIcon.setFamily("sharp-duotone");
+                link.add(waIcon);
+            }
+            link.setText("&nbsp;" + text);
         }
-        link.setText("&nbsp;"+ text);
+        else
+        {
+            if (icon != null)
+            {
+                WaIcon<?> waIcon = new WaIcon<>(icon).addClass("wa-gap-1").addStyle("color", "var(--wa-color-brand-on-normal)");
+                waIcon.setFamily("sharp-duotone");
+                item.add(waIcon);
+            }
+            item.setText("&nbsp;" + text);
+        }
         return item;
     }
 
