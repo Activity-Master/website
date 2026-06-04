@@ -17,8 +17,8 @@
 
         <ignore.moditect>true</ignore.moditect>
         <flatten.pom>false</flatten.pom>
-        <jwebmp.version>2.0.2</jwebmp.version>
-        <guicedee.version>2.1.0-SNAPSHOT</guicedee.version>
+        <jwebmp.version>2.0.3-SNAPSHOT</jwebmp.version>
+        <guicedee.version>2.1.1-SNAPSHOT</guicedee.version>
 
         <maven.compiler.release>25</maven.compiler.release>
         <lombok.version>1.18.46</lombok.version>
