@@ -429,7 +429,6 @@ wa-page > [slot='menu'] wa-tree,
 wa-page > [slot='navigation'] wa-tree {
     --indent-size: 0;
     padding-inline-start: 0;
-    margin-inline-start: -40px;
 }
 
 wa-page > [slot='menu'] wa-tree-item::part(item),

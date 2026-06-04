@@ -10,6 +10,7 @@ import com.jwebmp.core.base.angular.client.services.interfaces.INgDataType;
 
 @NgDataType(NgDataType.DataTypeClass.Class)
 @NgSignal(value = "true", type = "boolean", referenceName = "useGradle")
+@NgSignal(value = "true", type = "boolean", referenceName = "darkMode")
 @NgImportReference(value = "Injectable", reference = "@angular/core")
 @NgImportReference(value = "inject", reference = "@angular/core", onParent = true, onSelf = false)
 @NgField(value = "app: App = inject(App);", onParent = true, onSelf = false)

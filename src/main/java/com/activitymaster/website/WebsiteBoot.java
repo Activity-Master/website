@@ -12,18 +12,27 @@ import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
 import com.jwebmp.core.base.angular.services.RouterOutlet;
 import com.jwebmp.core.base.html.DivSimple;
 import com.jwebmp.core.base.html.Link;
+import com.jwebmp.core.base.angular.components.NgIf;
+import com.jwebmp.plugins.markdown.Markdown;
 import com.jwebmp.webawesome.components.PageSize;
 import com.jwebmp.webawesome.components.Variant;
+import com.jwebmp.webawesome.components.badge.WaBadge;
 import com.jwebmp.webawesome.components.button.Appearance;
 import com.jwebmp.webawesome.components.button.WaButton;
+import com.jwebmp.webawesome.components.callout.WaCallout;
 import com.jwebmp.webawesome.components.icon.WaIcon;
 import com.jwebmp.webawesome.components.page.WaPage;
+import com.jwebmp.webawesome.components.popover.WaPopover;
+import com.jwebmp.webawesome.components.popover.WaPopoverPlacements;
 import com.jwebmp.webawesome.components.toast.WaToastDataService;
 import com.jwebmp.webawesome.components.tooltip.WaTooltip;
 import com.jwebmp.webawesome.components.tree.WaTree;
 import com.jwebmp.webawesome.components.tree.WaTreeItem;
+import com.jwebmp.webawesome.components.waswitch.WaSwitch;
 import com.jwebmp.webawesome.components.WaDiv;
+import com.jwebmp.webawesome.tokens.WaBorderToken;
 import com.jwebmp.webawesome.tokens.WaSpaceToken;
+import com.jwebmp.webawesome.tokens.WaTypographyToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,14 +63,17 @@ import java.util.List;
 @NgImportReference(value = "Router, NavigationStart, NavigationEnd", reference = "@angular/router")
 @NgImportReference(value = "inject", reference = "@angular/core")
 @NgImportReference(value = "filter", reference = "rxjs/operators")
-@NgComponentReference(WaToastDataService.class)
+@NgComponentReference(value = WaToastDataService.class)
+@NgComponentReference(value = StatusService.class)
 @NgComponentReference(value = App.class)
-@NgComponentReference(InvolvedPartyPage.class)
-@NgComponentReference(ArrangementPage.class)
-@NgComponentReference(EventPage.class)
-@NgComponentReference(ProductPage.class)
-@NgComponentReference(ResourceItemPage.class)
-@NgComponentReference(ClassificationsPage.class)
+@NgComponentReference(value = InvolvedPartyPage.class,referenceOnly = true)
+@NgComponentReference(value = ArrangementPage.class,referenceOnly = true)
+@NgComponentReference(value = EventPage.class,referenceOnly = true)
+@NgComponentReference(value = ProductPage.class,referenceOnly = true)
+@NgComponentReference(value = ResourceItemPage.class,referenceOnly = true)
+@NgComponentReference(value = ClassificationsPage.class,referenceOnly = true)
+@NgComponentReference(value = RulesPage.class,referenceOnly = true)
+@NgComponentReference(value = LocationPage.class,referenceOnly = true)
 public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<WebsiteBoot> {
     public WebsiteBoot() {
         setTag("ng-container");
@@ -101,6 +113,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
 
         // Activity Master — active product
         WaButton<?> activityBtn = new WaButton<>();
+        activityBtn.addStyle("position", "relative");
         activityBtn.setAppearance(Appearance.Plain);
         activityBtn.setVariant(Variant.Brand);
         activityBtn.addAttribute("routerLink", "/home");
@@ -118,10 +131,13 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         activityBtn.add(activityLogo);
         activityBtn.setText("Activity Master");
         activityBtn.setRenderTextBeforeChildren(false);
+        activityBtn.add(createStatusBadge("activity-master-website"));
         cluster.add(activityBtn);
+        cluster.add(createStatusTooltip("product-activity-master", "activity-master-website"));
 
         // GuicedEE
         WaButton<?> guicedeeBtn = new WaButton<>();
+        guicedeeBtn.addStyle("position", "relative");
         guicedeeBtn.setAppearance(Appearance.Plain);
         guicedeeBtn.setVariant(Variant.Brand);
         guicedeeBtn.setAsLink("https://guicedee.com", "guicedee", null);
@@ -136,14 +152,14 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         guicedeeLogo.addClass("logo-guicedee");
         guicedeeLogo.addAttribute("label", "GuicedEE");
         guicedeeBtn.add(guicedeeLogo);
+        guicedeeBtn.setRenderTextBeforeChildren(false);
+        guicedeeBtn.add(createStatusBadge("guicedee-website"));
         cluster.add(guicedeeBtn);
-        WaTooltip<?> guicedeeTip = new WaTooltip<>();
-        guicedeeTip.setForId("product-guicedee");
-        guicedeeTip.setText("GuicedEE");
-        cluster.add(guicedeeTip);
+        cluster.add(createStatusTooltip("product-guicedee", "guicedee-website"));
 
         // JWebMP
         WaButton<?> jwebmpBtn = new WaButton<>();
+        jwebmpBtn.addStyle("position", "relative");
         jwebmpBtn.setAppearance(Appearance.Plain);
         jwebmpBtn.setVariant(Variant.Brand);
         jwebmpBtn.setAsLink("https://jwebmp.com", "jwebmp", null);
@@ -153,19 +169,19 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         jwebmpBtn.setSize(com.jwebmp.webawesome.components.Size.Small);
         var jwebmpLogo = new WaIcon<>();
         jwebmpLogo.addClass("fak");
-        jwebmpLogo.addClass("fa-jwebmp-logo");
+        jwebmpLogo.addClass("fa-jwebmp-logo-green");
         jwebmpLogo.addClass("logo-icon");
         jwebmpLogo.addClass("logo-jwebmp");
         jwebmpLogo.addAttribute("label", "JWebMP");
         jwebmpBtn.add(jwebmpLogo);
+        jwebmpBtn.setRenderTextBeforeChildren(false);
+        jwebmpBtn.add(createStatusBadge("jwebmp-website"));
         cluster.add(jwebmpBtn);
-        WaTooltip<?> jwebmpTip = new WaTooltip<>();
-        jwebmpTip.setForId("product-jwebmp");
-        jwebmpTip.setText("JWebMP");
-        cluster.add(jwebmpTip);
+        cluster.add(createStatusTooltip("product-jwebmp", "jwebmp-website"));
 
         // Entity Assist
         WaButton<?> entityBtn = new WaButton<>();
+        entityBtn.addStyle("position", "relative");
         entityBtn.setAppearance(Appearance.Plain);
         entityBtn.setVariant(Variant.Brand);
         entityBtn.setAsLink("https://entityassist.com", "entityassist", null);
@@ -180,26 +196,107 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         entityLogo.addClass("logo-entity-assist");
         entityLogo.addAttribute("label", "Entity Assist");
         entityBtn.add(entityLogo);
+        entityBtn.setRenderTextBeforeChildren(false);
+        entityBtn.add(createStatusBadge("entity-assist-website"));
         cluster.add(entityBtn);
-        WaTooltip<?> entityTip = new WaTooltip<>();
-        entityTip.setForId("product-entity-assist");
-        entityTip.setText("Entity Assist");
-        cluster.add(entityTip);
+        cluster.add(createStatusTooltip("product-entity-assist", "entity-assist-website"));
 
-        // ── Version badge ──
-        com.jwebmp.webawesome.components.badge.WaBadge<?> versionBadge = new com.jwebmp.webawesome.components.badge.WaBadge<>();
+        // ── Version badge (Central release) ──
+        WaBadge<?> versionBadge = new WaBadge<>();
         versionBadge.addClass("version-badge");
         versionBadge.setVariant(Variant.Brand);
         versionBadge.setPill(true);
-        versionBadge.setFontSize(com.jwebmp.webawesome.tokens.WaTypographyToken.FontSize2XS);
+        versionBadge.setFontSize(WaTypographyToken.FontSize2XS);
         versionBadge.setOnColour(Variant.Brand);
         versionBadge.setFillColour(Variant.Brand);
         versionBadge.addStyle("border", "2px solid var(--wa-color-brand-light)");
         versionBadge.addStyle("box-shadow", "0 0 6px color-mix(in srgb, var(--wa-color-brand-normal) 40%, transparent)");
         versionBadge.addStyle("cursor", "pointer");
+        versionBadge.addStyle("margin-inline-start", "var(--wa-space-m)");
         versionBadge.setText("3.0.0");
         versionBadge.setID("version-badge");
         cluster.add(versionBadge);
+
+        // ── Snapshot badge popover with Maven/Gradle repository instructions ──
+        WaPopover<?> snapshotPopover = new WaPopover<>();
+        snapshotPopover.setForElement(versionBadge);
+        snapshotPopover.setPlacement(WaPopoverPlacements.Bottom);
+        snapshotPopover.setMaxWidth("32rem");
+        snapshotPopover.setPopoverBorderColor(Variant.Brand);
+        snapshotPopover.setPopoverBorderWidth(WaBorderToken.WidthS);
+        snapshotPopover.setPopoverBorderRadius(WaBorderToken.RadiusL);
+        snapshotPopover.setArrowColor(Variant.Brand);
+
+        var popoverContent = new WaDiv<>();
+        popoverContent.setPadding(WaSpaceToken.SpaceM);
+
+        var popoverTitle = new WaDiv<>("strong");
+        popoverTitle.setText("Snapshot Repository Setup");
+        popoverTitle.addStyle("display", "block");
+        popoverTitle.addStyle("margin-block-end", WaSpaceToken.SpaceS.var());
+        popoverTitle.setFontSize(WaTypographyToken.FontSizeM);
+        popoverContent.add(popoverTitle);
+
+        var snapshotVersionLabel = new WaDiv<>();
+        snapshotVersionLabel.addStyle("margin-block-end", WaSpaceToken.SpaceS.var());
+        snapshotVersionLabel.setFontSize(WaTypographyToken.FontSizeS);
+        snapshotVersionLabel.setText("Current snapshot: <code>3.0.1-SNAPSHOT</code>");
+        popoverContent.add(snapshotVersionLabel);
+
+        var popoverDesc = new WaDiv<>("p");
+        popoverDesc.addStyle("margin-block-end", WaSpaceToken.SpaceS.var());
+        popoverDesc.setFontSize(WaTypographyToken.FontSizeS);
+        popoverDesc.addStyle("color", "var(--wa-color-neutral-700)");
+        popoverDesc.addAttribute("[innerText]", "app.useGradle() ? 'Add to your build.gradle:' : 'Add to your pom.xml:'");
+        popoverContent.add(popoverDesc);
+
+        var mavenMd = new Markdown<>("""
+                ```xml
+                <repository>
+                    <id>activitymaster-github</id>
+                    <url>https://maven.pkg.github.com/Activity-Master</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                ```""");
+        mavenMd.setClipboard(true);
+        mavenMd.addClass("aside-snippet-code");
+        mavenMd.addClass("wa-body-xs");
+        var mavenIf = new NgIf("!app.useGradle()");
+        mavenIf.add(mavenMd);
+        popoverContent.add(mavenIf);
+
+        var gradleMd = new Markdown<>("""
+                ```groovy
+                repositories {
+                    maven {
+                        url = uri("https://maven.pkg.github.com/Activity-Master")
+                        credentials {
+                            username = project.findProperty("gpr.user")
+                                ?: System.getenv("GITHUB_USER")
+                            password = project.findProperty("gpr.token")
+                                ?: System.getenv("GITHUB_TOKEN")
+                        }
+                    }
+                }
+                ```""");
+        gradleMd.setClipboard(true);
+        gradleMd.addClass("aside-snippet-code");
+        gradleMd.addClass("wa-body-xs");
+        var gradleIf = new NgIf("app.useGradle()");
+        gradleIf.add(gradleMd);
+        popoverContent.add(gradleIf);
+
+        var authNote = new WaDiv<>("p");
+        authNote.addStyle("margin-block-start", WaSpaceToken.SpaceS.var());
+        authNote.setFontSize(WaTypographyToken.FontSize2XS);
+        authNote.addStyle("color", "var(--wa-color-neutral-600)");
+        authNote.setText("&#x1F511; GitHub Packages requires authentication — use a personal access token with <code>read:packages</code> scope.");
+        popoverContent.add(authNote);
+
+        snapshotPopover.add(popoverContent);
+        cluster.add(snapshotPopover);
 
         primary.add(cluster);
 
@@ -208,6 +305,32 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         secondary.addClass("nav-products-secondary");
         secondary.addClass("wa-cluster");
         secondary.addClass("wa-gap-2xs");
+
+        // Maven / Gradle toggle switch
+        var buildToolToggle = new WaDiv<>();
+        buildToolToggle.addClass("wa-cluster");
+        buildToolToggle.addClass("wa-gap-2xs");
+        buildToolToggle.addClass("wa-align-items-center");
+        buildToolToggle.setFontSize(WaTypographyToken.FontSizeXS);
+        buildToolToggle.addStyle("color", "var(--wa-color-text-quiet)");
+
+        var mavenLabel = new DivSimple<>();
+        mavenLabel.setTag("span");
+        mavenLabel.setText("Maven");
+        buildToolToggle.add(mavenLabel);
+
+        WaSwitch<?> buildToolSwitch = new WaSwitch<>();
+        buildToolSwitch.setSize(com.jwebmp.webawesome.components.Size.Small);
+        buildToolSwitch.setName("useGradle");
+        buildToolSwitch.addAttribute("(wa-change)", "onBuildToolChange($event)");
+        buildToolToggle.add(buildToolSwitch);
+
+        var gradleLabel = new DivSimple<>();
+        gradleLabel.setTag("span");
+        gradleLabel.setText("Gradle");
+        buildToolToggle.add(gradleLabel);
+
+        secondary.add(buildToolToggle);
 
         WaButton<?> githubBtn = new WaButton<>();
         githubBtn.setAppearance(Appearance.Plain);
@@ -238,6 +361,20 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         starTip.setText("Star this Repository");
         secondary.add(starTip);
 
+        WaButton<?> docsBtn = new WaButton<>();
+        docsBtn.setAppearance(Appearance.Plain);
+        docsBtn.setVariant(Variant.Brand);
+        docsBtn.setAsLink("https://github.com/GuicedEE/ai-rules", "activitymaster-github", null);
+        docsBtn.addClass("pseudo-product");
+        docsBtn.addClass("product-docs");
+        docsBtn.setID("product-docs");
+        docsBtn.add(new WaIcon<>("brain-circuit").addAttribute("family", "sharp-duotone").addAttribute("label", "AI Skills Repository"));
+        secondary.add(docsBtn);
+        WaTooltip<?> docsTip = new WaTooltip<>();
+        docsTip.setForId("product-docs");
+        docsTip.setText("AI Skills Repository");
+        secondary.add(docsTip);
+
         WaButton<?> patreonBtn = new WaButton<>();
         patreonBtn.setAppearance(Appearance.Plain);
         patreonBtn.setVariant(Variant.Brand);
@@ -262,7 +399,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         themeBtn.addClass("product-theme");
         themeBtn.setID("product-theme");
         var themeIcon = new WaIcon<>();
-        themeIcon.addAttribute("[name]", "darkMode() ? 'sun-bright' : 'moon'");
+        themeIcon.addAttribute("[name]", "app.darkMode() ? 'moon' : 'sun-bright'");
         themeIcon.addAttribute("family", "sharp-duotone");
         themeIcon.addAttribute("label", "Toggle Theme");
         themeBtn.add(themeIcon);
@@ -284,15 +421,17 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         menuTree.setIndentGuideColor("var(--wa-color-neutral-300)");
 
         menuTree.add(createRouterTreeItem("/home", "Home", "house"));
+        menuTree.add(createRouterTreeItem("/involved-party", "Involved Party", "user-group"));
+        menuTree.add(createRouterTreeItem("/arrangement", "Arrangement", "file-contract"));
+        menuTree.add(createRouterTreeItem("/event", "Event", "calendar-star"));
+        menuTree.add(createRouterTreeItem("/product", "Product", "box-open"));
+        menuTree.add(createRouterTreeItem("/resource-item", "Resource Item", "toolbox"));
+        menuTree.add(createRouterTreeItem("/classifications", "Classifications", "tags"));
+        menuTree.add(createRouterTreeItem("/rules", "Rules", "scale-balanced"));
+        menuTree.add(createRouterTreeItem("/location", "Location", "location-dot"));
 
-        WaTreeItem<?> conceptsItem = createRouterTreeItem(null, "Concepts", "books");
-        conceptsItem.add(createRouterTreeItem("/involved-party", "Involved Party", "user-group"));
-        conceptsItem.add(createRouterTreeItem("/arrangement", "Arrangement", "file-contract"));
-        conceptsItem.add(createRouterTreeItem("/event", "Event", "calendar-star"));
-        conceptsItem.add(createRouterTreeItem("/product", "Product", "box-open"));
-        conceptsItem.add(createRouterTreeItem("/resource-item", "Resource Item", "toolbox"));
-        conceptsItem.add(createRouterTreeItem("/classifications", "Classifications", "tags"));
-        menuTree.add(conceptsItem);
+        // Support (external)
+        menuTree.add(createExternalTreeItem("https://www.patreon.com/GedMarc", "Support", "life-ring"));
 
         menu.add(menuTree);
 
@@ -393,16 +532,15 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         navTree.setIndentGuideColor("var(--wa-color-neutral-300)");
 
         navTree.add(createRouterTreeItem("/home", "Home", "house"));
-
-        WaTreeItem<?> navConceptsItem = createRouterTreeItem(null, "Concepts", "books");
-        navConceptsItem.add(createRouterTreeItem("/involved-party", "Involved Party", "user-group"));
-        navConceptsItem.add(createRouterTreeItem("/arrangement", "Arrangement", "file-contract"));
-        navConceptsItem.add(createRouterTreeItem("/event", "Event", "calendar-star"));
-        navConceptsItem.add(createRouterTreeItem("/product", "Product", "box-open"));
-        navConceptsItem.add(createRouterTreeItem("/resource-item", "Resource Item", "toolbox"));
-        navConceptsItem.add(createRouterTreeItem("/classifications", "Classifications", "tags"));
-        navTree.add(navConceptsItem);
-
+        navTree.add(createRouterTreeItem("/involved-party", "Involved Party", "user-group"));
+        navTree.add(createRouterTreeItem("/arrangement", "Arrangement", "file-contract"));
+        navTree.add(createRouterTreeItem("/event", "Event", "calendar-star"));
+        navTree.add(createRouterTreeItem("/product", "Product", "box-open"));
+        navTree.add(createRouterTreeItem("/resource-item", "Resource Item", "toolbox"));
+        navTree.add(createRouterTreeItem("/classifications", "Classifications", "tags"));
+        navTree.add(createRouterTreeItem("/rules", "Rules", "scale-balanced"));
+        navTree.add(createRouterTreeItem("/location", "Location", "location-dot"));
+        navTree.add(createExternalTreeItem("https://www.patreon.com/GedMarc", "Support", "life-ring"));
         burgerMenuNavigation.add(navTree);
 
         // ── Built-on attribution links below drawer tree ──
@@ -465,6 +603,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         burgerMenuNavigation.add(drawerBuiltOn);
 
         page.getMain().add(new RouterOutlet<>());
+        page.getAside().add(new RouterOutlet<>("aside"));
 
         add(page);
     }
@@ -493,6 +632,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         }
         else
         {
+            item.setRenderTextBeforeChildren(false);
             if (icon != null)
             {
                 WaIcon<?> waIcon = new WaIcon<>(icon).addClass("wa-gap-1").addStyle("color", "var(--wa-color-brand-on-normal)");
@@ -522,6 +662,68 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         return item;
     }
 
+    /**
+     * Creates a small status badge dot that reflects the health status of a service.
+     * Uses Angular attribute binding to dynamically set the variant based on status.
+     */
+    private static WaBadge<?> createStatusBadge(String serviceName)
+    {
+        WaBadge<?> badge = new WaBadge<>();
+        badge.setPill(true);
+        badge.addAttribute("[attr.variant]", "statusService.getStatusVariant('" + serviceName + "')");
+        badge.addStyle("position", "absolute");
+        badge.addStyle("top", "10px");
+        badge.addStyle("right", "10px");
+        badge.addStyle("transform", "translate(50%, -50%)");
+        badge.addStyle("z-index", "10");
+        badge.addStyle("width", "12px");
+        badge.addStyle("height", "12px");
+        badge.addStyle("padding", "0");
+        badge.addStyle("display", "flex");
+        badge.addStyle("align-items", "center");
+        badge.addStyle("justify-content", "center");
+        badge.addStyle("font-size", "10px");
+        badge.setID("status-badge-" + serviceName);
+        badge.addStyle("cursor", "help");
+
+        WaIcon<?> tick = new WaIcon<>("check");
+        tick.addAttribute("family", "solid");
+        tick.addAttribute("*ngIf", "statusService.getServiceStatus('" + serviceName + "') === 'UP'");
+        badge.add(tick);
+
+        WaIcon<?> cross = new WaIcon<>("xmark");
+        cross.addAttribute("family", "solid");
+        cross.addAttribute("*ngIf", "statusService.getServiceStatus('" + serviceName + "') === 'DOWN'");
+        badge.add(cross);
+
+        WaIcon<?> warn = new WaIcon<>("exclamation");
+        warn.addAttribute("family", "solid");
+        warn.addAttribute("*ngIf", "statusService.getServiceStatus('" + serviceName + "') === 'DEGRADED' || statusService.getServiceStatus('" + serviceName + "') === 'WARNING'");
+        badge.add(warn);
+
+        WaIcon<?> quest = new WaIcon<>("question");
+        quest.addAttribute("family", "solid");
+        quest.addAttribute("*ngIf", "statusService.getServiceStatus('" + serviceName + "') === 'UNKNOWN'");
+        badge.add(quest);
+
+        return badge;
+    }
+
+    /**
+     * Creates a tooltip for a product button that shows the health status from the StatusService.
+     * The tooltip targets the button's ID rather than the small badge, ensuring reliable display.
+     */
+    private static WaTooltip<?> createStatusTooltip(String buttonId, String serviceName)
+    {
+        WaTooltip<?> tooltip = new WaTooltip<>();
+        tooltip.setForId(buttonId);
+        tooltip.addAttribute("placement", "bottom");
+        tooltip.addAttribute("distance", "8");
+        tooltip.addAttribute("hoist", "");
+        tooltip.setText("{{statusService.getHealthTooltip('" + serviceName + "')}}");
+        return tooltip;
+    }
+
     @Override
     public List<String> host() {
         return List.of("""
@@ -533,11 +735,28 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
     }
 
     @Override
+    public List<String> providers() {
+        var p = INgComponent.super.providers();
+        return p;
+    }
+
+    @Override
     public List<String> fields() {
         var f = new ArrayList<>(INgComponent.super.fields());
         f.add("private router: Router = inject(Router);");
+        f.add("private _asideNavigating = false;");
         f.add("private document = inject(DOCUMENT);");
-        f.add("darkMode = signal(true);");
+        f.add("""
+                private asideRoutes: Record<string, string> = {
+                    'home': 'home',
+                    'involved-party': 'involved-party',
+                    'arrangement': 'arrangement',
+                    'event': 'event',
+                    'product': 'product',
+                    'resource-item': 'resource-item',
+                    'classifications': 'classifications',
+                    'rules': 'rules'
+                };""");
         return f;
     }
 
@@ -546,10 +765,17 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         var m = new ArrayList<>(INgComponent.super.methods());
         m.add("""
                 toggleDarkMode() {
-                    const isDark = !this.darkMode();
-                    this.darkMode.set(isDark);
+                    const isDark = !this.app.darkMode();
+                    this.app.darkMode.set(isDark);
                     this.document.body.classList.toggle('wa-dark', isDark);
                     localStorage.setItem('activitymaster-theme', isDark ? 'dark' : 'light');
+                }""");
+
+        m.add("""
+                onBuildToolChange(event: any) {
+                    const value = event.target.checked;
+                    this.app.useGradle.set(value);
+                    localStorage.setItem('activitymaster-build-tool', value ? 'gradle' : 'maven');
                 }""");
         return m;
     }
@@ -561,8 +787,42 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         init.add("""
                 const savedTheme = localStorage.getItem('activitymaster-theme');
                 const prefersDark = savedTheme ? savedTheme === 'dark' : true;
-                this.darkMode.set(prefersDark);
+                this.app.darkMode.set(prefersDark);
                 this.document.body.classList.toggle('wa-dark', prefersDark);""");
+        init.add("""
+                const savedBuildTool = localStorage.getItem('activitymaster-build-tool');
+                if (savedBuildTool) {
+                    this.app.useGradle.set(savedBuildTool === 'gradle');
+                }""");
+        init.add("""
+                this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((e: any) => {
+                    if (this._asideNavigating) return;
+                    const navEnd = e as NavigationEnd;
+                    const parsedUrl = this.router.parseUrl(navEnd.urlAfterRedirects);
+                    const primarySegments = parsedUrl.root.children['primary']?.segments || [];
+                    const primaryPath = primarySegments.map((s: any) => s.path).join('/');
+                    const asidePath = this.asideRoutes[primaryPath];
+                    const currentAside = parsedUrl.root.children['aside'];
+                    const currentAsidePath = currentAside?.segments?.map((s: any) => s.path).join('/') || null;
+                    
+                    if (asidePath && currentAsidePath !== asidePath) {
+                        this._asideNavigating = true;
+                        const asideSegments = asidePath.split('/');
+                        const tree = this.router.createUrlTree([{outlets: {aside: asideSegments}}], {relativeTo: null as any});
+                        tree.root.children['primary'] = parsedUrl.root.children['primary'];
+                        tree.queryParams = parsedUrl.queryParams;
+                        tree.fragment = parsedUrl.fragment;
+                        this.router.navigateByUrl(tree, {replaceUrl: true})
+                            .then(() => this._asideNavigating = false)
+                            .catch(() => this._asideNavigating = false);
+                    } else if (!asidePath && currentAside) {
+                        this._asideNavigating = true;
+                        delete parsedUrl.root.children['aside'];
+                        this.router.navigateByUrl(parsedUrl, {replaceUrl: true})
+                            .then(() => this._asideNavigating = false)
+                            .catch(() => this._asideNavigating = false);
+                    }
+                });""");
         return init;
     }
 
