@@ -24,7 +24,7 @@ import com.jwebmp.webawesome.components.icon.WaIcon;
 import com.jwebmp.webawesome.components.page.WaPage;
 import com.jwebmp.webawesome.components.popover.WaPopover;
 import com.jwebmp.webawesome.components.popover.WaPopoverPlacements;
-import com.jwebmp.webawesome.components.toast.WaToastDataService;
+import com.jwebmp.webawesomepro.components.toast.WaToastDataService;
 import com.jwebmp.webawesome.components.tooltip.WaTooltip;
 import com.jwebmp.webawesome.components.tree.WaTree;
 import com.jwebmp.webawesome.components.tree.WaTreeItem;
