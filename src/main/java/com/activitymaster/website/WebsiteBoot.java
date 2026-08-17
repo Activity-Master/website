@@ -9,6 +9,7 @@ import com.jwebmp.core.base.angular.client.annotations.references.NgImportProvid
 import com.jwebmp.core.base.angular.client.annotations.references.NgImportReference;
 import com.jwebmp.core.base.angular.client.annotations.routing.NgRoutable;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
+import com.jwebmp.core.base.angular.components.modules.RouterModuleConfig;
 import com.jwebmp.core.base.angular.services.RouterOutlet;
 import com.jwebmp.core.base.html.DivSimple;
 import com.jwebmp.core.base.html.Link;
@@ -74,6 +75,7 @@ import java.util.List;
 @NgComponentReference(value = ClassificationsPage.class,referenceOnly = true)
 @NgComponentReference(value = RulesPage.class,referenceOnly = true)
 @NgComponentReference(value = LocationPage.class,referenceOnly = true)
+@NgComponentReference(RouterModuleConfig.class)
 public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<WebsiteBoot> {
     public WebsiteBoot() {
         setTag("ng-container");
