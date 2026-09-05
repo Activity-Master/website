@@ -232,7 +232,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         var popoverContent = new WaDiv<>();
         popoverContent.setPadding(WaSpaceToken.SpaceM);
 
-        var popoverTitle = new WaDiv<>("strong");
+        var popoverTitle = new WaDiv<>().setTag("strong");
         popoverTitle.setText("Snapshot Repository Setup");
         popoverTitle.addStyle("display", "block");
         popoverTitle.addStyle("margin-block-end", WaSpaceToken.SpaceS.var());
@@ -245,7 +245,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         snapshotVersionLabel.setText("Current snapshot: <code>3.0.1-SNAPSHOT</code>");
         popoverContent.add(snapshotVersionLabel);
 
-        var popoverDesc = new WaDiv<>("p");
+        var popoverDesc = new WaDiv<>().setTag("p");
         popoverDesc.addStyle("margin-block-end", WaSpaceToken.SpaceS.var());
         popoverDesc.setFontSize(WaTypographyToken.FontSizeS);
         popoverDesc.addStyle("color", "var(--wa-color-neutral-700)");
@@ -290,7 +290,7 @@ public class WebsiteBoot extends DivSimple<WebsiteBoot> implements INgComponent<
         gradleIf.add(gradleMd);
         popoverContent.add(gradleIf);
 
-        var authNote = new WaDiv<>("p");
+        var authNote = new WaDiv<>().setTag("p");
         authNote.addStyle("margin-block-start", WaSpaceToken.SpaceS.var());
         authNote.setFontSize(WaTypographyToken.FontSize2XS);
         authNote.addStyle("color", "var(--wa-color-neutral-600)");
