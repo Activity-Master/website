@@ -86,9 +86,9 @@ public class StatusService implements INgDataType<StatusService>
     {
         return new StringBuilder("""
                 this.fetchStatus();
-                // Refresh once per day (86_400_000 ms). A short interval in a long-open/background
+                // Refresh every 12 hours (43_200_000 ms). A short interval in a long-open/background
                 // tab keeps status.guicedee.com (website-backend) awake and prevents it scaling to zero.
-                interval(86400000).subscribe(() => this.fetchStatus());
+                interval(43200000).subscribe(() => this.fetchStatus());
                 """);
     }
 }

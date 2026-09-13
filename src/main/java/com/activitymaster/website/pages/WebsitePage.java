@@ -4,6 +4,7 @@ import com.activitymaster.website.App;
 import com.jwebmp.core.base.angular.client.annotations.references.NgComponentReference;
 import com.jwebmp.core.base.angular.client.services.interfaces.INgComponent;
 import com.jwebmp.core.base.angular.components.NgIf;
+import com.jwebmp.core.base.angular.components.modules.RouterModuleConfig;
 import com.jwebmp.core.base.html.DivSimple;
 import com.jwebmp.plugins.markdown.Markdown;
 import com.jwebmp.webawesome.components.BorderTokenCapable;
@@ -22,6 +23,7 @@ import com.jwebmp.webawesome.components.text.WaText;
 import org.apache.commons.text.StringEscapeUtils;
 
 @NgComponentReference(App.class)
+@NgComponentReference(RouterModuleConfig.class)
 public abstract class WebsitePage<J extends WebsitePage<J>> extends DivSimple<J> implements INgComponent<J>, SpaceTokenCapable<J>, BorderTokenCapable<J>, TypographyTokenCapable<J>
 {
     protected WebsitePage()
